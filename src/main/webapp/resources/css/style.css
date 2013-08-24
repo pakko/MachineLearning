@@ -1,0 +1,8 @@
+body {font-family:arial,sans-serif;font-size:10pt;}
+
+#time_source {
+	color: #666666;
+}
+
+#pageCount{width:500px; margin:10px auto; text-align:center} 
+#pageCount span{margin:4px; font-size:14px}
