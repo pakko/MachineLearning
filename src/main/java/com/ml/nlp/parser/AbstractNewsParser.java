@@ -27,9 +27,10 @@ public abstract class AbstractNewsParser implements IParser<News> {
 		String title = null;
 		String content = null;
 		String date = null;
-		String author = null;
-		String img = null;
-		String source = null;
+		String author = "";
+		String img = "";
+		String source = "";
+		News news = null;
 		try{
 			Parser parser = new Parser(url);
 	        NodeFilters nodeFilters = getNodeFilters();
@@ -45,12 +46,14 @@ public abstract class AbstractNewsParser implements IParser<News> {
 	        img = getImg(nodeFilters.getImgFilter(), parser);
 	        parser.reset();
 	        source = getSource(nodeFilters.getSourceFilter(), parser);
+	        
+	        //先设置新闻对象，让新闻对象里有新闻内容。
+	        news = this.setNews(title, author, content, date, url, img, source);
 		} catch (Exception e) {
 			System.out.println("error url: " + url);
 			e.printStackTrace();
 		}
-        //先设置新闻对象，让新闻对象里有新闻内容。
-        News news = this.setNews(title, author, content, date, url, img, source);
+        
             
         return news;
     }

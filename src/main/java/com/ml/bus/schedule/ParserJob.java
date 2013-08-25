@@ -60,8 +60,9 @@ public class ParserJob extends QuartzJobBean {
 			if (visitUrl == null)
 				continue;
 			// 解析连接
-			News news = (News) parser.parse(visitUrl);	
-			if(news.getContent().equals("")) {
+			News news = (News) parser.parse(visitUrl);
+			if(news == null || news.getDate() == null || 
+					news.getTitle() == null || news.getContent() == null) {
 				continue;
 			}
 			//http://it.sohu.com -> it
