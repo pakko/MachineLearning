@@ -61,17 +61,19 @@ public class ParserJob extends QuartzJobBean {
 				continue;
 			// 解析连接
 			News news = (News) parser.parse(visitUrl);
+			
+			// 该 url 放入到已访问的 URL 中
+			LinkDB.addVisitedUrl(visitUrl);
+						
 			if(news == null || news.getDate() == null || 
 					news.getTitle() == null || news.getContent() == null) {
 				continue;
 			}
+			
 			//http://it.sohu.com -> it
 			news.setOriginalCategory(queueName.substring(queueName.indexOf("/") + 2, queueName.indexOf(".")));
 			// 放到待分析队列
 			ParserDB.addUnAnalysizedNews(news);
-			
-			// 该 url 放入到已访问的 URL 中
-			LinkDB.addVisitedUrl(visitUrl);
 			
 			i++;
 		}

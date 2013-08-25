@@ -16,8 +16,8 @@ public interface NewsMapper {
 	final String SELECT_ALL = "SELECT * FROM news";
 	final String SELECT_BY_CATEGORYID = "SELECT * FROM news WHERE categoryId=#{categoryId}";
 	final String SELECT_BY_ID = "SELECT * FROM news WHERE cluster_name=#{clusterName}";
-	final String SELECT_BY_PAGER = "SELECT * FROM news ORDER BY #{sortField} #{sortOrder} LIMIT #{startIndex}, #{limitSize}";
-	final String SELECT_BY_CATEGORYID_PAGER = "SELECT * FROM news WHERE categoryId=#{categoryId} ORDER BY #{pager.sortField} #{pager.sortOrder} LIMIT #{pager.startIndex}, #{pager.limitSize}";
+	final String SELECT_BY_PAGER = "SELECT * FROM news ORDER BY date DESC LIMIT #{startIndex}, #{limitSize}";
+	final String SELECT_BY_CATEGORYID_PAGER = "SELECT * FROM news WHERE categoryId=#{categoryId} ORDER BY date DESC LIMIT #{pager.startIndex}, #{pager.limitSize}";
 	final String INSERT = "INSERT INTO news(title, content, author, date, categoryId, url, img, source, originalCategory) "
 			+ "VALUES(#{title}, #{content}, #{author}, #{date}, #{categoryId}, #{url}, #{img}, #{source}, #{originalCategory})";
 	
