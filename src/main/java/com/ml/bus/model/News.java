@@ -2,13 +2,18 @@ package com.ml.bus.model;
 
 import java.util.Date;
 
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
+
 public class News {
+	@Id
 	private String id;
 	private String title;
 	private String content;
 	private String author;
 	private Date date;
 	private String categoryId;
+	@Indexed(unique = true)
 	private String url;
 	private String img;
 	private String source;
@@ -25,7 +30,7 @@ public class News {
 		this.content = content;
 		this.author = author;
 		this.date = date;
-		this.setCategoryId(categoryId);
+		this.categoryId = categoryId;
 		this.url = url;
 		this.img = img;
 		this.source = source;
@@ -63,6 +68,14 @@ public class News {
 		this.date = date;
 	}
 	
+	public String getCategoryId() {
+		return categoryId;
+	}
+
+	public void setCategoryId(String categoryId) {
+		this.categoryId = categoryId;
+	}
+
 	public String getUrl() {
 		return url;
 	}
@@ -97,14 +110,6 @@ public class News {
 		return "News [id=" + id + ", title=" + title + ", content=" + content
 				+ ", author=" + author + ", date=" + date + ", category="
 				+ categoryId + ", url=" + url + ", img=" + img + ", source=" + source + ", originalCategory=" + originalCategory + "]";
-	}
-
-	public String getCategoryId() {
-		return categoryId;
-	}
-
-	public void setCategoryId(String categoryId) {
-		this.categoryId = categoryId;
 	}
 	
 	

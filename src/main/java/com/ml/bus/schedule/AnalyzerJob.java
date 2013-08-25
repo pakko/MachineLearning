@@ -10,12 +10,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.scheduling.quartz.QuartzJobBean;
 
-import com.ml.bus.model.Category;
 import com.ml.bus.model.News;
 import com.ml.bus.service.MemoryService;
 import com.ml.bus.service.NewsService;
 import com.ml.db.ParserDB;
-import com.ml.nlp.classify.BernoulliNB;
 import com.ml.nlp.classify.MultiNomialNB;
 import com.ml.nlp.classify.NaiveBayesClassifier;
 import com.ml.nlp.classify.TrainnedModel;
@@ -26,8 +24,6 @@ public class AnalyzerJob extends QuartzJobBean {
     
 	private MemoryService memoryService;
 	private NewsService newsService;
-	
-	private Map<String, Category> categoryMap;
 
 	private NaiveBayesClassifier classifier;
 	
@@ -42,13 +38,11 @@ public class AnalyzerJob extends QuartzJobBean {
 		memoryService = (MemoryService)ctx.getBean("memoryService");
 		newsService = (NewsService)ctx.getBean("newsService");
 		
-		categoryMap = memoryService.getCategoryMap();
 		TrainnedModel model = memoryService.getModel();
 		
     	if(classifier == null) {
     		System.out.println("new classifier");
-    		//classifier = new MultiNomialNB(model);
-    		classifier = new BernoulliNB(model);
+    		classifier = new MultiNomialNB(model);
     	}
 		analyze(classifier, 0);
 		
@@ -73,8 +67,7 @@ public class AnalyzerJob extends QuartzJobBean {
 			System.out.println("此项属于[" + result + "], 耗时：" + time);
 			if(result != null) {
 				// 更新该条新闻的类别
-				Category category = categoryMap.get(result);
-				news.setCategoryId(category.getId());
+				news.setCategoryId(result);
 				newsService.save(news);
 				
 			}

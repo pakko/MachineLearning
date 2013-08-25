@@ -14,7 +14,6 @@ import org.springframework.stereotype.Service;
 import com.ml.bus.dao.ICategoryDAO;
 import com.ml.bus.dao.ICrawlPatternDAO;
 import com.ml.bus.dao.INewsDAO;
-import com.ml.bus.model.Category;
 import com.ml.bus.model.CrawlPattern;
 import com.ml.bus.model.News;
 import com.ml.db.LinkDB;
@@ -36,7 +35,6 @@ public class MemoryService {
 	
 	private List<CrawlPattern> crawlPatterns;
 	private TrainnedModel model;
-	private Map<String, Category> categoryMap;
 
 	Map<String, String> categoryUrl;
 	
@@ -45,15 +43,12 @@ public class MemoryService {
 		long start = System.currentTimeMillis();
 		
 		crawlPatterns = crawlPatternDAO.findAll();
-		List<Category> categorys = categoryDAO.findAll();
 		List<News> news = newsDAO.findAll();
 		
-		initCategory(categorys);
 		inititVisitedUrl(news);
 		
 		//later added to memcached
 		loadModel(Constants.defaultMultinomialModelFile);
-		//loadModel(Constants.defaultBernoulliModelFile);
 		
 		//initCategoryUrl();
 		//calculateNews(news);
@@ -63,6 +58,7 @@ public class MemoryService {
 		System.out.println("Complete init memory datasets. Classified News size: " + news.size());
 		System.out.println("Cost time:" + (end - start) );
 		
+		news.clear();
 		news = null;
     }
 
@@ -92,14 +88,6 @@ public class MemoryService {
 		categoryUrl.put("cul", "C000023");
 		categoryUrl.put("mil", "C000024");
 		
-	}
-	
-
-	private void initCategory(List<Category> categorys) {
-		categoryMap = new HashMap<String, Category>(categorys.size());
-		for(Category category: categorys) {
-			categoryMap.put(category.getId(), category);
-		}
 	}
 
 
@@ -135,14 +123,6 @@ public class MemoryService {
 
 	public void setModel(TrainnedModel model) {
 		this.model = model;
-	}
-
-	public Map<String, Category> getCategoryMap() {
-		return categoryMap;
-	}
-
-	public void setCategoryMap(Map<String, Category> categoryMap) {
-		this.categoryMap = categoryMap;
 	}
 
 	

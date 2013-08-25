@@ -19,7 +19,6 @@ import com.ml.bus.model.Category;
 import com.ml.bus.model.CrawlPattern;
 import com.ml.bus.service.CategoryService;
 import com.ml.bus.service.CrawlPatternService;
-import com.ml.util.Constants;
 
 
 @Controller

@@ -1,14 +1,17 @@
 package com.ml.bus.model;
 
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
+
 public class CrawlPattern {
+	@Id
 	private String id;
+	@Indexed(unique = true)
 	private String crawlUrl;
 	private String patternUrl;
 	private String type;
 	
-	public CrawlPattern() {
-		
-	}
+	public CrawlPattern() {}
 	
 	public CrawlPattern(String id, String crawlUrl, String patternUrl, String type) {
 		super();

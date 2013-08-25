@@ -13,7 +13,6 @@ import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 
-import com.ml.bus.model.Category;
 import com.ml.bus.model.News;
 import com.ml.util.Constants;
 
@@ -36,7 +35,7 @@ public class MyBatisDB implements IBaseDB{
 
 	public MyBatisDB() {
 		try {
-			String confFile = Constants.dbConfigFolder + Constants.separator + "MySQL_127.0.0.1" + Constants.defaultDBConfigFileSuffix;
+			String confFile = Constants.defaultConfigFile;
 
 			Properties props = new Properties();
 			try {
@@ -59,7 +58,7 @@ public class MyBatisDB implements IBaseDB{
 	}
 	
 	public static void main(String[] args) {
-		String confFile = Constants.dbConfigFolder + Constants.separator + "MySQL_127.0.0.1" + Constants.defaultDBConfigFileSuffix;
+		String confFile = Constants.defaultConfigFile;
 		Properties props = new Properties();
 		try {
 			props.load(new FileInputStream(confFile));

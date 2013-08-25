@@ -3,30 +3,45 @@ package com.ml.bus.dao;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Order;
+import org.springframework.data.mongodb.core.query.Query;
 
-import com.ml.bus.mapper.NewsMapper;
 import com.ml.bus.model.News;
+import com.ml.db.IBaseDB;
+import com.ml.util.Constants;
 import com.ml.util.Pagination;
 
-@Repository
 public class NewsDAO implements INewsDAO {
 	
 	@Autowired
-	NewsMapper newsMapper;
+	IBaseDB baseDB;
 	
 	public List<News> findAll() {
-		return newsMapper.findAll();
+		return baseDB.findAll(News.class, Constants.newsCollectionName);
 	}
 	
 	public List<News> findByCategory(String categoryId) {
-		return newsMapper.findByCategory(categoryId);
+		Query query = new Query();
+		query.addCriteria(Criteria.where("category._id").is(categoryId));
+		return baseDB.find(query, News.class, Constants.newsCollectionName);
 	}
 	
 	public Pagination findByPage(Pagination pager) {
 		int limitSize = pager.getLimitSize();
-		List<News> items = newsMapper.findByPage(pager);
-		int totalCount = newsMapper.count();
+		int startIndex = pager.getStartIndex();
+		
+		Query query = new Query();
+		if(pager.getSortOrder().equals("desc")){
+			query.sort().on(pager.getSortField(), Order.DESCENDING);
+		}
+		else if(pager.getSortOrder().equals("asc")){
+			query.sort().on(pager.getSortField(), Order.ASCENDING);
+		}
+		query = query.skip(startIndex).limit(limitSize);
+		
+		List<News> items = baseDB.find(query, News.class, Constants.newsCollectionName);
+		int totalCount = (int) baseDB.count(query, Constants.newsCollectionName);
 
 		int totalPage = (int)(totalCount / limitSize) + 1;
 		if((totalCount % limitSize) == 0) {
@@ -41,8 +56,21 @@ public class NewsDAO implements INewsDAO {
 	
 	public Pagination findByCategoryAndPage(String categoryId, Pagination pager) {
 		int limitSize = pager.getLimitSize();
-		List<News> items = newsMapper.findByCategoryAndPage(categoryId, pager);
-		int totalCount = newsMapper.countCategory(categoryId);
+		int startIndex = pager.getStartIndex();
+		
+		Query query = new Query();
+		query.addCriteria(Criteria.where("category._id").is(categoryId));
+		
+		if(pager.getSortOrder().equals("desc")){
+			query.sort().on(pager.getSortField(), Order.DESCENDING);
+		}
+		else if(pager.getSortOrder().equals("asc")){
+			query.sort().on(pager.getSortField(), Order.ASCENDING);
+		}
+		query = query.skip(startIndex).limit(limitSize);
+		
+		List<News> items = baseDB.find(query, News.class, Constants.newsCollectionName);
+		int totalCount = (int) baseDB.count(query, Constants.newsCollectionName);
 
 		int totalPage = (int)(totalCount / limitSize) + 1;
 		if((totalCount % limitSize) == 0) {
@@ -56,7 +84,7 @@ public class NewsDAO implements INewsDAO {
 	}
 	
 	public void save(News news) {
-		newsMapper.save(news);
+		baseDB.save(news, Constants.newsCollectionName);
 	}
 	
 

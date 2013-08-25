@@ -19,14 +19,21 @@
             <property name="username" value="${JAE_MYSQL_USERNAME}"/>
             <property name="password" value="${JAE_MYSQL_PASSWORD}"/>
         </bean>
-    -->
+    
     <bean id="dataSource" destroy-method="close" class="org.apache.commons.dbcp.BasicDataSource">
             <property name="driverClassName" value="com.mysql.jdbc.Driver"/>
             <property name="url" value="jdbc:mysql://w.rdc.sae.sina.com.cn:3307/app_pakko?useUnicode=true&amp;characterEncoding=utf-8" />
             <property name="username" value="${SAE_MYSQL_USER}"/>
             <property name="password" value="${SAE_MYSQL_PASS}"/>
     </bean>
-        
+    -->    
+    <bean id="dataSource" destroy-method="close" class="org.apache.commons.dbcp.BasicDataSource">
+            <property name="driverClassName" value="${JDBC.Driver}"/>
+            <property name="url" value="${JDBC.ConnectionURL}" />
+            <property name="username" value="${JDBC.Username}"/>
+            <property name="password" value="${JDBC.Password}"/>
+    </bean>
+    
     <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
         <property name="dataSource" ref="dataSource"/>
     </bean>

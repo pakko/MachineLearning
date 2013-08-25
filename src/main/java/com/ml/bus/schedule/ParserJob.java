@@ -61,7 +61,9 @@ public class ParserJob extends QuartzJobBean {
 				continue;
 			// 解析连接
 			News news = (News) parser.parse(visitUrl);	
-			
+			if(news.getContent().equals("")) {
+				continue;
+			}
 			//http://it.sohu.com -> it
 			news.setOriginalCategory(queueName.substring(queueName.indexOf("/") + 2, queueName.indexOf(".")));
 			// 放到待分析队列

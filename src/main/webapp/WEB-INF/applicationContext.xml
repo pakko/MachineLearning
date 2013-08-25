@@ -29,9 +29,18 @@
 	<!-- Configures the annotation-driven Spring MVC Controller programming model.
 	Note that, with Spring 3.0, this tag works in Servlet MVC only!  -->
 	<mvc:annotation-driven /> 
+	<!--
+	<bean id="categoryDAO" class="com.ml.bus.dao.CategoryDAO" />
+	<bean id="newsDAO" class="com.ml.bus.dao.NewsDAO" />
+	<bean id="crawlPatternDAO" class="com.ml.bus.dao.CrawlPatternDAO" />
+	<import resource="db-mongo.xml" />
+-->
 	
+	<bean id="categoryDAO" class="com.ml.bus.dao.CategoryMybatisDAO" />
+	<bean id="newsDAO" class="com.ml.bus.dao.NewsMybatisDAO" />
+	<bean id="crawlPatternDAO" class="com.ml.bus.dao.CrawlPatternMybatisDAO" />
 	<import resource="db-mybatis.xml" />
-
+	
 	<!-- quartz configuration -->
 	<bean name="autoCrawlerJob" 
     		class="org.springframework.scheduling.quartz.JobDetailBean">
