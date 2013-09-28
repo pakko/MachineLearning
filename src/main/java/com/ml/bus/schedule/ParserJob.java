@@ -54,7 +54,7 @@ public class ParserJob extends QuartzJobBean {
 		
 		int i = 0;
 		// 循环迭代出连接，然后提取该连接中的新闻。limitNumber为0时不限制解析数量
-		while(!LinkDB.unVisitedUrlsEmpty(queueName) 
+		while(!LinkDB.unVisitedUrlIsEmpty(queueName) 
 				&& (i < limitNumber || limitNumber == 0)) {
 			String visitUrl = LinkDB.unVisitedUrlDeQueue(queueName);
 			if (visitUrl == null)
@@ -73,7 +73,7 @@ public class ParserJob extends QuartzJobBean {
 			//http://it.sohu.com -> it
 			news.setOriginalCategory(queueName.substring(queueName.indexOf("/") + 2, queueName.indexOf(".")));
 			// 放到待分析队列
-			ParserDB.addUnAnalysizedNews(news);
+			ParserDB.addUnParsedNews(news);
 			
 			i++;
 		}

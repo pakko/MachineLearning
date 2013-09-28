@@ -44,7 +44,7 @@ public class Crawler {
 		
 		int i = 0;
 		System.out.println(LinkDB.getUnVisitedUrl(name2).size());
-		while(!LinkDB.unVisitedUrlsEmpty(name2) && i < 1000) {
+		while(!LinkDB.unVisitedUrlIsEmpty(name2) && i < 1000) {
 			i++;
 			System.out.println(LinkDB.unVisitedUrlDeQueue(name2));
 		}

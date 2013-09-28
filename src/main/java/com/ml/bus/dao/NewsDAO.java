@@ -23,7 +23,7 @@ public class NewsDAO implements INewsDAO {
 	
 	public List<News> findByCategory(String categoryId) {
 		Query query = new Query();
-		query.addCriteria(Criteria.where("category._id").is(categoryId));
+		query.addCriteria(Criteria.where("categoryId").is(categoryId));
 		return baseDB.find(query, News.class, Constants.newsCollectionName);
 	}
 	
@@ -59,7 +59,7 @@ public class NewsDAO implements INewsDAO {
 		int startIndex = pager.getStartIndex();
 		
 		Query query = new Query();
-		query.addCriteria(Criteria.where("category._id").is(categoryId));
+		query.addCriteria(Criteria.where("categoryId").is(categoryId));
 		
 		if(pager.getSortOrder().equals("desc")){
 			query.sort().on(pager.getSortField(), Order.DESCENDING);

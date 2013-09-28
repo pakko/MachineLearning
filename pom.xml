@@ -175,7 +175,38 @@
             <artifactId>commons-dbcp</artifactId>
             <version>1.4</version>
         </dependency>    
+        
+         <dependency>
+             <groupId>com.zehon</groupId>
+			 <artifactId>zehon</artifactId>
+			 <version>1.1.6</version>
+			 <scope>system</scope>
+			 <systemPath>${project.basedir}/lib/zehon_file_transfer-1.1.6.jar</systemPath>
+         </dependency>
+         
+         <dependency>
+			<groupId>com.jcraft</groupId>
+			<artifactId>jsch</artifactId>
+			<version>0.1.50</version>
+		</dependency>
             
+        <dependency>
+			<groupId>org.apache.httpcomponents</groupId>
+			<artifactId>httpclient</artifactId>
+			<version>4.2.3</version>
+		</dependency>
+            
+        <dependency>
+			<groupId>commons-io</groupId>
+			<artifactId>commons-io</artifactId>
+			<version>2.4</version>
+		</dependency>
+        <dependency>
+			<groupId>com.google.code.gson</groupId>
+			<artifactId>gson</artifactId>
+			<version>2.2.4</version>
+		</dependency>
+                        
   </dependencies>
   
   <build>

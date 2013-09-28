@@ -52,10 +52,10 @@ public class AnalyzerJob extends QuartzJobBean {
     private void analyze(NaiveBayesClassifier classifier, int limitNumber) {
     	int i = 0;
 		// 循环迭代出连接，然后提取该连接中的新闻。limitNumber为0时不限制解析数量
-		while(!ParserDB.unAnalysizedNewsEmpty() 
+		while(!ParserDB.unParsedNewsIsEmpty() 
 				&& (i < limitNumber || limitNumber == 0)) {
 			
-			News news = ParserDB.unAnalysizedNewsDeQueue();
+			News news = ParserDB.unParsedNewsDeQueue();
 			if (news == null)
 				continue;
 
@@ -71,10 +71,7 @@ public class AnalyzerJob extends QuartzJobBean {
 				newsService.save(news);
 				
 			}
-			
-			// 该 url 放入到已分析的新闻 中
-			ParserDB.addAnalysizedNews(news.getUrl());
-			
+			ParserDB.addParserNews(news.getUrl());
 			i++;
 		}
     }
