@@ -7,50 +7,39 @@ import com.ml.bus.model.News;
 import com.ml.util.Queue;
 
 /**
- * 用来保存已经分析过的新闻和待分析的新闻的类
+ * 用来保存待解析的新闻的类
  */
 public class ParserDB {
+	// 待解析的新闻集合
+	private static Set<String> parsedNews = new HashSet<String>();
+	private static Queue<News> unParsedNews = new Queue<News>();
 
-	// 已分析过的新闻集合
-	private static Set<String> analysizedNews = new HashSet<String>();
-	// 待分析的新闻集合
-	private static Queue<News> unAnalysizedNews = new Queue<News>();
-
-	public static Queue<News> getAnalysizedNews() {
-		return unAnalysizedNews;
-	}
-
-	public static void addAnalysizedNews(String url) {
-		analysizedNews.add(url);
-	}
-
-	public static void removeAnalysizedNews(String url) {
-		analysizedNews.remove(url);
-	}
-
-	public static News unAnalysizedNewsDeQueue() {
-		return unAnalysizedNews.deQueue();
-	}
-
-	// 保证每个 url 只被分析一次
-	public static void addUnAnalysizedNews(News news) {
-		String url = news.getUrl();
-		if (url != null && !url.trim().equals("")
-				&& !analysizedNews.contains(url)
-				&& !unAnalysizedNews.contians(news))
-			unAnalysizedNews.enQueue(news);
-	}
-
-	public static int getAnalysizedNewsNum() {
-		return analysizedNews.size();
-	}
-
-	public static boolean unAnalysizedNewsEmpty() {
-		return unAnalysizedNews.empty();
+	public static void addParserNews(String url) {
+		parsedNews.add(url);
 	}
 	
-	public static int getUnAnalysizedNewsNum() {
-		return unAnalysizedNews.size();
+	public static Queue<News> getParsedNews() {
+		return unParsedNews;
+	}
+
+	public static News unParsedNewsDeQueue() {
+		return unParsedNews.deQueue();
+	}
+
+	public static void addUnParsedNews(News news) {
+		String url = news.getUrl();
+		if (url != null && !url.trim().equals("")
+				&& !parsedNews.contains(url)
+				&& !unParsedNews.contians(news))
+			unParsedNews.enQueue(news);
+	}
+
+	public static boolean unParsedNewsIsEmpty() {
+		return unParsedNews.empty();
+	}
+	
+	public static int getUnParsedNewsNum() {
+		return unParsedNews.size();
 	}
 
 }

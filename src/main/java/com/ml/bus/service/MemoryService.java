@@ -50,8 +50,8 @@ public class MemoryService {
 		//later added to memcached
 		loadModel(Constants.defaultMultinomialModelFile);
 		
-		//initCategoryUrl();
-		//calculateNews(news);
+		initCategoryUrl();
+		calculateNews(news);
 		
 		long end = System.currentTimeMillis();
 		

@@ -46,7 +46,7 @@ public class LinkDB {
 		return null;
 	}
 
-	public static boolean unVisitedUrlsEmpty(String queueName) {
+	public static boolean unVisitedUrlIsEmpty(String queueName) {
 		Queue<String> q = unVisitedQueueMap.get(queueName);
 		if(q == null) {
 			return true;

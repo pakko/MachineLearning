@@ -2,7 +2,7 @@ package com.ml.nlp.clustering;
 import java.util.Arrays;
 
 public class EKmeans {
-    protected double[][] centroids;
+    protected double[][] centroids;	//[行][列], 行代表数据数量，列代表维度
     protected double[][] points;
     protected int idealCount;		//每个中心里理想点的个数
     protected double[][] distances;

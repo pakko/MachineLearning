@@ -27,5 +27,50 @@ public class Constants {
 	public static final String newsCollectionName = "news";
 	public static final String crawlPatternCollectionName = "crawl_pattern";
 	public static final String categoryCollectionName = "category";
+	
+	public static final int CPU_NUMBER = Runtime.getRuntime().availableProcessors();
+    // default work queue cache size
+    public static int maxCacheWork = 300;
+    // default add work wait time
+    public static long addWorkWaitTime = Long.MAX_VALUE;
+    // work thread pool size
+    public static int workThreadNum = CPU_NUMBER / 2;
+    // callback thread pool size
+    public static int callbackThreadNum = CPU_NUMBER / 2;
+    //close service wait time
+    public static long closeServiceWaitTime = 5 * 60 * 1000;
+    
+    public static final String sshUser = "root";
+    public static final String sshPass = "123123";
+    public static final String sshIP = "192.168.198.128";
+
+    public static final int batchAnalyzeSize = 100;
+    public static final String fileExt = ".txt";
+    public static final String defaultFileEncoding = "UTF8";
+    public static final String zipFileExt = ".zip";
+    public static final String defaultUploadDir = "/root";
+    public static final String scriptSeparator = "\n";
+    public static final String scriptPath = "script.sh";
+    public static final String vectorWeight = "tfidf_update";
+    public static final String vectorTokenAnalyzer = "com.chenlb.mmseg4j.analysis.MMSegAnalyzer";
+
+    public static final String newFileName = "newfile";
+    public static final String newFileSeq = "newfile-seq";
+    public static final String newFileVectors = "newfile-vectors";
+    public static final String newFileTFVectors = "tf-vectors";
+
+    public static final String corpusFileVectors = "news-vectors";
+    public static final String corpusFileDictionaryFile = corpusFileVectors + "/" + "dictionary.file-0";
+    public static final String corpusFileFrequencyFile = corpusFileVectors + "/" + "frequency.file-0";
+    public static final String corpusFileTFVectors = corpusFileVectors + "/" + "tf-vectors";
+    public static final String corpusFileModel = "model";
+    public static final String corpusFileLabelIndex = "labelindex";
+
+    public static final String newFileResult = "newfile-result";
+    public static final String newFileResultFile = "result.res";
+
+    
+
+
 
 }
