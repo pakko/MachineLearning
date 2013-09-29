@@ -24,11 +24,11 @@ public class MongoDB implements IBaseDB {
 	
 	public MongoDB(Properties props) {
 		try {
-			String host = props.getProperty("host");
-			int port = Integer.valueOf(props.getProperty("port"));
-			String db = props.getProperty("database");
-			String user = props.getProperty("user");
-			String password = props.getProperty("password");
+			String host = props.getProperty("mongo.host");
+			int port = Integer.valueOf(props.getProperty("mongo.port"));
+			String db = props.getProperty("mongo.db");
+			String user = props.getProperty("mongo.user");
+			String password = props.getProperty("mongo.password");
 			
 			UserCredentials userCredentials = new UserCredentials(user, password);
 			Mongo mongo = new Mongo(host, port);

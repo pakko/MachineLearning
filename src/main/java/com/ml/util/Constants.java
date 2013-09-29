@@ -42,13 +42,15 @@ public class Constants {
     
     public static final String sshUser = "root";
     public static final String sshPass = "123123";
-    public static final String sshIP = "192.168.198.128";
-
+    //public static final String sshIP = "192.168.198.128";
+    public static final String sshIP = "10.74.68.13";
+    
     public static final int batchAnalyzeSize = 100;
     public static final String fileExt = ".txt";
     public static final String defaultFileEncoding = "UTF8";
     public static final String zipFileExt = ".zip";
-    public static final String defaultUploadDir = "/root";
+    //public static final String defaultUploadDir = "/root/";
+    public static final String defaultUploadDir = "/opt/";
     public static final String scriptSeparator = "\n";
     public static final String scriptPath = "script.sh";
     public static final String vectorWeight = "tfidf_update";

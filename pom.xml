@@ -181,7 +181,7 @@
 			 <artifactId>zehon</artifactId>
 			 <version>1.1.6</version>
 			 <scope>system</scope>
-			 <systemPath>${project.basedir}/lib/zehon_file_transfer-1.1.6.jar</systemPath>
+			 <systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/zehon_file_transfer-1.1.6.jar</systemPath>
          </dependency>
          
          <dependency>
@@ -246,7 +246,18 @@
               <warName>MachineLearning</warName>
           </configuration>
       </plugin>
-	
+	  <plugin>
+          <groupId>org.codehaus.mojo</groupId>
+          <artifactId>tomcat-maven-plugin</artifactId>
+          <version>1.1</version>
+          <configuration>
+          	  <url>http://10.74.68.13:8080/manager/html</url>
+              <username>admin</username>  
+              <password>123456</password>
+              <warFile>target/MachineLearning.war</warFile>
+              <path>/MachineLearning</path>
+          </configuration>
+      </plugin>
     </plugins>
   </build>
   

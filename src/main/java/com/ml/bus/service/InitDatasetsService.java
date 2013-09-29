@@ -30,7 +30,7 @@ public class InitDatasetsService {
 		}
 	}
 	private void saveCategory() throws Exception {
-		String filePath = "C:\\soft\\TrainingSet2\\ClassList.txt";
+		String filePath = "C:\\soft\\dm\\text_classification\\ClassList.txt";
 		String text = getText(filePath, " ");
 		String[] lines = text.split(" ");
 		for(String line: lines) {
@@ -58,7 +58,8 @@ public class InitDatasetsService {
 	}
 	
 	public static void main(String[] args) throws Exception {
-		String confFile = Constants.defaultConfigFile;
+		String confFile = Constants.defaultConfigFile.substring(1);
+		System.out.println(confFile);
 		Properties props = new Properties();
 		try {
 			props.load(new FileInputStream(confFile));

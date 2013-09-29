@@ -1,6 +1,6 @@
 package com.ml.util;
 
-import java.util.concurrent.LinkedBlockingQueue;
+import java.util.LinkedList;
 
 
 /**
@@ -8,23 +8,13 @@ import java.util.concurrent.LinkedBlockingQueue;
  */
 public class Queue<T> {
 
-	private LinkedBlockingQueue<T> queue = new LinkedBlockingQueue<T>();
-
+	private LinkedList<T> queue = new LinkedList<T>();
 	public void enQueue(T t) {
-		try {
-			queue.put(t);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
+		queue.add(t);
 	}
 
 	public T deQueue() {
-		try {
-			return queue.take();
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-		return null;
+		return queue.removeFirst();
 	}
 
 	public boolean isQueueEmpty() {

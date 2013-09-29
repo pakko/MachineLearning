@@ -112,10 +112,8 @@ public class SyncTaskService {
 		String scriptPath = Constants.scriptPath + taskId;
 
 		StringBuffer scriptSB = new StringBuffer();
-		scriptSB.append("rm -rf " + newFileName + Constants.scriptSeparator);
-		scriptSB.append("unzip " + destCompressFilePath + Constants.scriptSeparator);
-		scriptSB.append("hadoop fs -rmr " + newFileName + Constants.scriptSeparator);
-		scriptSB.append("hadoop fs -put " + newFileName + " ." + Constants.scriptSeparator);
+		scriptSB.append("unzip " + Constants.defaultUploadDir + destCompressFilePath + " -d " + Constants.defaultUploadDir + Constants.scriptSeparator);
+		scriptSB.append("hadoop fs -put " + Constants.defaultUploadDir + newFileName + " ." + Constants.scriptSeparator);
 		scriptSB.append("mahout seqdirectory -ow -i " + newFileName + " -o " + newFileSeq + Constants.scriptSeparator);
 		scriptSB.append("mvector -lnorm -nv -ow -wt " + Constants.vectorWeight + " -a " + Constants.vectorTokenAnalyzer
 				+ " -i " + newFileSeq + " -o " + newFileVectors
@@ -124,7 +122,7 @@ public class SyncTaskService {
 		scriptSB.append("mtest -ow -c"
 				+ " -m " + Constants.corpusFileModel + " -l " + Constants.corpusFileLabelIndex
 				+ " -i " + newFileTFVectors + " -o " + newFileResult + Constants.scriptSeparator);
-		scriptSB.append("mahout seqdumper -i " + newFileResult + " -o " + newFileResultFile + Constants.scriptSeparator);
+		scriptSB.append("mahout seqdumper -i " + newFileResult + " -o " + Constants.defaultUploadDir + newFileResultFile + Constants.scriptSeparator);
 		System.out.println(scriptSB.toString());
 		
 		// 3) upload script
@@ -132,19 +130,19 @@ public class SyncTaskService {
 		ssh.scpUploadFile(Constants.defaultUploadDir, scriptPath, scriptPath);
 		
 		// 4) exec script and get the result
-		ssh.sshExec("chmod a+x " + scriptPath + "; nohup sh " + scriptPath);
-		result = ssh.sshExec("cat " + newFileResultFile);
+		ssh.sshExec("chmod a+x " + Constants.defaultUploadDir + scriptPath + "; nohup sh " + Constants.defaultUploadDir + scriptPath);
+		result = ssh.sshExec("cat " + Constants.defaultUploadDir + newFileResultFile);
 		
 		// 5) do clean work
 		StringBuffer cleanSB = new StringBuffer();
-		cleanSB.append("rm -rf " + newFileName + Constants.scriptSeparator);
-		cleanSB.append("rm -rf " + destCompressFilePath + Constants.scriptSeparator);
+		cleanSB.append("rm -rf " + Constants.defaultUploadDir + newFileName + Constants.scriptSeparator);
+		cleanSB.append("rm -rf " + Constants.defaultUploadDir + destCompressFilePath + Constants.scriptSeparator);
 		cleanSB.append("hadoop fs -rmr " + newFileName + Constants.scriptSeparator);
 		cleanSB.append("hadoop fs -rmr " + newFileSeq + Constants.scriptSeparator);
 		cleanSB.append("hadoop fs -rmr " + newFileVectors + Constants.scriptSeparator);
 		cleanSB.append("hadoop fs -rmr " + newFileResult + Constants.scriptSeparator);
-		cleanSB.append("rm -rf " + scriptPath + Constants.scriptSeparator);
-		cleanSB.append("rm -rf " + newFileResultFile + Constants.scriptSeparator);
+		cleanSB.append("rm -rf " + Constants.defaultUploadDir + scriptPath + Constants.scriptSeparator);
+		cleanSB.append("rm -rf " + Constants.defaultUploadDir + newFileResultFile + Constants.scriptSeparator);
 		ssh.sshExec(cleanSB.toString());
 		FileUtils.forceDelete(dir); 
 		FileUtils.forceDelete(new File(destCompressFilePath)); 
