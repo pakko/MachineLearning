@@ -30,7 +30,7 @@ public class InitDatasetsService {
 		}
 	}
 	private void saveCategory() throws Exception {
-		String filePath = "C:\\soft\\dm\\text_classification\\ClassList.txt";
+		String filePath = Constants.defaultDataFolder + "//ClassList.txt";
 		String text = getText(filePath, " ");
 		String[] lines = text.split(" ");
 		for(String line: lines) {
@@ -44,7 +44,7 @@ public class InitDatasetsService {
 	private String getText(String filePath, String token) throws Exception {
 
 		InputStreamReader isReader = new InputStreamReader(new FileInputStream(
-				filePath), "GBK");
+				filePath), "UTF8");
 		BufferedReader reader = new BufferedReader(isReader);
 		String aline;
 		StringBuilder sb = new StringBuilder();
