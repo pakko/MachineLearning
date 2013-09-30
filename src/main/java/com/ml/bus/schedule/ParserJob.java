@@ -2,7 +2,7 @@ package com.ml.bus.schedule;
 
 
 import java.util.List;
-import java.util.Map;
+
 
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
@@ -19,6 +19,7 @@ import com.ml.db.ParserDB;
 import com.ml.nlp.parser.IParser;
 import com.ml.nlp.parser.SinaNewsParser;
 import com.ml.nlp.parser.SohuNewsParser;
+import com.ml.util.ApplicationContextUtil;
 
 public class ParserJob extends QuartzJobBean {
 
@@ -31,9 +32,7 @@ public class ParserJob extends QuartzJobBean {
 			throws JobExecutionException {
 		LOGGER.info("Starting to parsing ......");
 		
-		Map<?, ?> dataMap = context.getJobDetail().getJobDataMap();
-		ApplicationContext ctx = (ApplicationContext)dataMap.get("applicationContext");
-		
+		ApplicationContext ctx = ApplicationContextUtil.getQuartzApplicationContext(context);
 		memoryService = (MemoryService)ctx.getBean("memoryService");
 
 		List<CrawlPattern> crawlPatterns = memoryService.getCrawlPatterns();

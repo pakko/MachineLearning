@@ -1,7 +1,6 @@
 package com.ml.bus.schedule;
 
 import java.util.List;
-import java.util.Map;
 
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
@@ -14,6 +13,7 @@ import com.ml.bus.model.CrawlPattern;
 import com.ml.bus.service.MemoryService;
 import com.ml.db.LinkDB;
 import com.ml.nlp.crawler.Crawler;
+import com.ml.util.ApplicationContextUtil;
 import com.ml.util.Queue;
 
 public class CrawlerJob extends QuartzJobBean {
@@ -27,9 +27,7 @@ public class CrawlerJob extends QuartzJobBean {
 			throws JobExecutionException {
 		LOGGER.info("Starting to crawling ......");
 		
-		Map<?, ?> dataMap = context.getJobDetail().getJobDataMap();
-		ApplicationContext ctx = (ApplicationContext)dataMap.get("applicationContext");
-		
+		ApplicationContext ctx = ApplicationContextUtil.getQuartzApplicationContext(context);
 		memoryService = (MemoryService)ctx.getBean("memoryService");
 		List<CrawlPattern> crawlPatterns = memoryService.getCrawlPatterns();
 		

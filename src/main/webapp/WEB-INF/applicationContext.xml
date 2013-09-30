@@ -46,10 +46,7 @@
     		class="org.springframework.scheduling.quartz.JobDetailBean">
        <property name="jobClass">
           <value>com.ml.bus.schedule.CrawlerJob</value>
-       </property>
-       <property name="applicationContextJobDataKey">
-          <value>applicationContext</value>
-       </property>       
+       </property>     
     </bean>
     
     <bean id="cronAutoCrawler" 
@@ -66,10 +63,7 @@
     		class="org.springframework.scheduling.quartz.JobDetailBean">
        <property name="jobClass">
           <value>com.ml.bus.schedule.ParserJob</value>
-       </property>
-       <property name="applicationContextJobDataKey">
-          <value>applicationContext</value>
-       </property>       
+       </property>     
     </bean>
     
     <bean id="cronAutoParser" 
@@ -86,16 +80,35 @@
     		class="org.springframework.scheduling.quartz.JobDetailBean">
        <property name="jobClass">
           <value>com.ml.bus.schedule.AnalyzerHadoopJob</value>
-       </property>
-       <property name="applicationContextJobDataKey">
-          <value>applicationContext</value>
-       </property>       
+       </property>      
     </bean>
     
     <bean id="cronAutoAnalyzer" 
     		class="org.springframework.scheduling.quartz.CronTriggerBean">
        <property name="jobDetail">
           <ref bean="autoAnalyzerJob"/>
+       </property>
+       <property name="cronExpression">
+          <value>0/60 * * * * ?</value>
+       </property>
+    </bean>
+    
+    <bean name="autoDoHadoopJob" 
+    		class="org.springframework.scheduling.quartz.JobDetailBean">
+       <property name="jobClass">
+          <value>com.ml.bus.schedule.DoHadoopJob</value>
+       </property>
+       <property name="jobDataAsMap">  
+		   <map>  
+	       		<entry key="taskId" value="0"></entry>
+	       </map>  
+	   </property>   
+    </bean>
+    
+    <bean id="cronAutoDoHadoop" 
+    		class="org.springframework.scheduling.quartz.CronTriggerBean">
+       <property name="jobDetail">
+          <ref bean="autoDoHadoopJob"/>
        </property>
        <property name="cronExpression">
           <value>0/60 * * * * ?</value>
@@ -109,6 +122,7 @@
              <ref local="cronAutoCrawler"/>
              <ref local="cronAutoParser"/>
              <ref local="cronAutoAnalyzer"/>
+             <ref local="cronAutoDoHadoop"/>
           </list>
        </property>
        <property name="quartzProperties">
@@ -119,6 +133,9 @@
 	        <prop key="org.quartz.threadPool.makeThreadsDaemons">true</prop>
 	        <prop key="org.quartz.jobStore.class">org.quartz.simpl.RAMJobStore</prop>
 	       </props>
+       </property>
+       <property name="applicationContextSchedulerContextKey">
+       		<value>applicationContext</value>
        </property>
     </bean>
 	

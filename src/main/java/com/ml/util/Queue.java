@@ -9,8 +9,9 @@ import java.util.LinkedList;
 public class Queue<T> {
 
 	private LinkedList<T> queue = new LinkedList<T>();
+
 	public void enQueue(T t) {
-		queue.add(t);
+		queue.addLast(t);
 	}
 
 	public T deQueue() {

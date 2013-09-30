@@ -1,8 +1,5 @@
 package com.ml.bus.schedule;
 
-
-import java.util.Map;
-
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 import org.slf4j.Logger;
@@ -17,6 +14,7 @@ import com.ml.db.ParserDB;
 import com.ml.nlp.classify.MultiNomialNB;
 import com.ml.nlp.classify.NaiveBayesClassifier;
 import com.ml.nlp.classify.TrainnedModel;
+import com.ml.util.ApplicationContextUtil;
 
 public class AnalyzerJob extends QuartzJobBean {
 
@@ -32,9 +30,8 @@ public class AnalyzerJob extends QuartzJobBean {
 			throws JobExecutionException {
 		LOGGER.info("Starting to analyzing ......");
 		
-		Map<?, ?> dataMap = context.getJobDetail().getJobDataMap();
-		ApplicationContext ctx = (ApplicationContext)dataMap.get("applicationContext");
-		
+		ApplicationContext ctx = ApplicationContextUtil.getQuartzApplicationContext(context);
+
 		memoryService = (MemoryService)ctx.getBean("memoryService");
 		newsService = (NewsService)ctx.getBean("newsService");
 		

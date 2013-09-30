@@ -17,10 +17,6 @@ public class ParserDB {
 	public static void addParserNews(String url) {
 		parsedNews.add(url);
 	}
-	
-	public static Queue<News> getParsedNews() {
-		return unParsedNews;
-	}
 
 	public static News unParsedNewsDeQueue() {
 		return unParsedNews.deQueue();

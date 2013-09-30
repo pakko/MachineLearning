@@ -30,7 +30,7 @@ public class SyncTaskService {
 	@Autowired
 	private NewsService newsService;
 	
-	@PostConstruct 
+	//@PostConstruct 
     public void init(){ 
 		Thread t = new Thread(new Runnable() {
 			@Override
