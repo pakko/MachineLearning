@@ -21,6 +21,16 @@ public class NewsDAO implements INewsDAO {
 		return baseDB.findAll(News.class, Constants.newsCollectionName);
 	}
 	
+	public News findById(String id) {
+		Query query = new Query();
+		query.addCriteria(Criteria.where("id").is(id));
+		return baseDB.findOne(query, News.class, Constants.newsCollectionName);
+	}
+	
+	public void delete(News news) {
+		baseDB.delete(news, Constants.newsCollectionName);
+	}
+	
 	public List<News> findByCategory(String categoryId) {
 		Query query = new Query();
 		query.addCriteria(Criteria.where("categoryId").is(categoryId));
@@ -85,6 +95,36 @@ public class NewsDAO implements INewsDAO {
 	
 	public void save(News news) {
 		baseDB.save(news, Constants.newsCollectionName);
+	}
+
+	public Pagination findByCategorysAndPage(String categoryId, String clusterId, Pagination pager) {
+		int limitSize = pager.getLimitSize();
+		int startIndex = pager.getStartIndex();
+		
+		Query query = new Query();
+		query.addCriteria(Criteria.where("categoryId").is(categoryId));
+		query.addCriteria(Criteria.where("clusterId").is(clusterId));
+
+		if(pager.getSortOrder().equals("desc")){
+			query.sort().on(pager.getSortField(), Order.DESCENDING);
+		}
+		else if(pager.getSortOrder().equals("asc")){
+			query.sort().on(pager.getSortField(), Order.ASCENDING);
+		}
+		query = query.skip(startIndex).limit(limitSize);
+		
+		List<News> items = baseDB.find(query, News.class, Constants.newsCollectionName);
+		int totalCount = (int) baseDB.count(query, Constants.newsCollectionName);
+
+		int totalPage = (int)(totalCount / limitSize) + 1;
+		if((totalCount % limitSize) == 0) {
+			totalPage = totalPage - 1;
+		}
+		pager.setItems(items);
+		pager.setTotalCount(totalCount);
+		pager.setTotalPage(totalPage);
+		
+		return pager;
 	}
 	
 

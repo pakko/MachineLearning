@@ -1,14 +1,10 @@
 package com.ml.bus.controller;
 
-import java.io.BufferedReader;
-import java.io.FileInputStream;
-import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,21 +12,19 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ml.bus.model.Category;
-import com.ml.bus.model.CrawlPattern;
+import com.ml.bus.model.Cluster;
 import com.ml.bus.service.CategoryService;
-import com.ml.bus.service.CrawlPatternService;
-
+import com.ml.bus.service.ClusterService;
 
 @Controller
 @RequestMapping(value = "/category")
 public class CategoryController {
 
-	    private static final Logger logger = LoggerFactory.getLogger(CategoryController.class);
-
 	    @Autowired
 	    CategoryService categoryService;
-		@Autowired
-		CrawlPatternService crawlPatternService;
+	    @Autowired
+	    private ClusterService clusterService;
+	    
 	    @RequestMapping(value = "", method = RequestMethod.GET)
 	    public @ResponseBody List<Category> get() {
 	    	
@@ -38,51 +32,34 @@ public class CategoryController {
 	    	
 	    }
 	    
-		private static String defaultPath = "C:\\soft\\TrainingSet2";
-
-	    @RequestMapping(value = "/saveCategory", method = RequestMethod.GET)
-	    public @ResponseBody String saveCategory() throws Exception {
+	    @RequestMapping(value = "show", method = RequestMethod.GET)
+	    public @ResponseBody List<Map<String, Object>> showCluster() throws Exception {
+	    	long start = System.currentTimeMillis();
+	    	List<Cluster> clusterList = clusterService.findAll();
+	    	List<Category> categoryList = categoryService.findAll();
 	    	
-	    	String filePath = defaultPath + "\\ClassList.txt";
-			String text = getText(filePath, " ");
-			String[] lines = text.split(" ");
-			for(String line: lines) {
-				String[] l = line.split("\t");
-				Category category = new Category(l[0], l[1]);
-				categoryService.save(category);
-			}
-	    	return "ok";
+	    	List<Map<String, Object>> result = new ArrayList<Map<String, Object>>();
+	    	for(Category category: categoryList) {
+	    		List<Cluster> clusters = getClustersByCategory(clusterList, category.getId());
+	    		Map<String, Object> map = new HashMap<String, Object>();
+	    		map.put("categoryId", category.getId());
+	    		map.put("categoryName", category.getName());
+	    		map.put("clusters", clusters);
+	    		result.add(map);
+	    	}
+			long end = System.currentTimeMillis();
+			System.out.println("耗时：" + (end -start));
+			
+			return result;
 	    }
 	    
-	    @RequestMapping(value = "/savePattern", method = RequestMethod.GET)
-	    public @ResponseBody String savePattern() throws Exception {
-	    	
-	    	Map<String, String> urlPatterns = new HashMap<String, String>();
-			//urlPatterns.put("http://news.sohu.com", "http://news.sohu.com/[\\d]+/n[\\d]+.shtml");
-			urlPatterns.put("http://it.sohu.com", "http://it.sohu.com/[\\d]+/n[\\d]+.shtml");
-			urlPatterns.put("http://learning.sohu.com", "http://learning.sohu.com/[\\d]+/n[\\d]+.shtml");
-			urlPatterns.put("http://travel.sohu.com", "http://travel.sohu.com/[\\d]+/n[\\d]+.shtml");
-			urlPatterns.put("http://health.sohu.com", "http://health.sohu.com/[\\d]+/n[\\d]+.shtml");
-			for(String url: urlPatterns.keySet()) {
-				CrawlPattern cp = new CrawlPattern(null, url, urlPatterns.get(url), "sohu");
-				crawlPatternService.save(cp);
-			}
-	    	return "ok";
+	    private List<Cluster> getClustersByCategory(List<Cluster> clusterList, String categoryId) {
+	    	List<Cluster> clusters = new ArrayList<Cluster>();
+	    	for(Cluster cluster: clusterList) {
+	    		if(categoryId.equals(cluster.getCategoryId())){
+	    			clusters.add(cluster);
+	    		}
+	    	}
+	    	return clusters;
 	    }
-	   
-	    private String getText(String filePath, String token) throws Exception {
-
-			InputStreamReader isReader = new InputStreamReader(new FileInputStream(
-					filePath), "GBK");
-			BufferedReader reader = new BufferedReader(isReader);
-			String aline;
-			StringBuilder sb = new StringBuilder();
-
-			while ((aline = reader.readLine()) != null) {
-				sb.append(aline.trim() + token);
-			}
-			isReader.close();
-			reader.close();
-			return sb.toString();
-		}
 }

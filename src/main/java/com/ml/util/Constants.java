@@ -27,7 +27,8 @@ public class Constants {
 	public static final String newsCollectionName = "news";
 	public static final String crawlPatternCollectionName = "crawl_pattern";
 	public static final String categoryCollectionName = "category";
-	
+	public static final String clusterCollectionName = "cluster";
+
 	public static final int CPU_NUMBER = Runtime.getRuntime().availableProcessors();
     // default work queue cache size
     public static int maxCacheWork = 300;
@@ -43,7 +44,7 @@ public class Constants {
     public static final String sshUser = "root";
     public static final String sshPass = "123123";
     //public static final String sshIP = "192.168.198.128";
-    public static final String sshIP = "10.74.68.13";
+    public static final String sshIP = "192.168.220.129";
     
     public static final int batchAnalyzeSize = 100;
     public static final String fileExt = ".txt";
@@ -59,7 +60,7 @@ public class Constants {
     public static final String newFileName = "newfile";
     public static final String newFileSeq = "newfile-seq";
     public static final String newFileVectors = "newfile-vectors";
-    public static final String newFileTFVectors = "tf-vectors";
+    public static final String newFileTFIDFVectors = "tfidf-vectors";
 
     public static final String corpusFileVectors = "news-vectors";
     public static final String corpusFileDictionaryFile = corpusFileVectors + "/" + "dictionary.file-0";
@@ -71,7 +72,8 @@ public class Constants {
     public static final String newFileResult = "newfile-result";
     public static final String newFileResultFile = "result.res";
 
-    
+    public static final String distanceMesasure = "org.apache.mahout.common.distance.CosineDistanceMeasure";
+    public static final int maxIter = 10;
 
 
 

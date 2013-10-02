@@ -3,13 +3,10 @@ package com.ml.bus.schedule;
 import java.util.List;
 import java.util.Map;
 
-import org.quartz.JobDataMap;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import org.springframework.context.ApplicationContext;
 import org.springframework.scheduling.quartz.QuartzJobBean;
 
@@ -24,8 +21,6 @@ import com.ml.util.ShortUrlUtil;
 public class DoHadoopJob extends QuartzJobBean {
 
 	private static final Logger logger = LoggerFactory.getLogger(DoHadoopJob.class);
-	
-	private static final String TASKID = "taskId";
 	
 	private NewsService newsService;
 	private SyncTaskService syncTaskService;
@@ -45,12 +40,7 @@ public class DoHadoopJob extends QuartzJobBean {
 		ApplicationContext ctx = ApplicationContextUtil.getQuartzApplicationContext(context);
 		newsService = (NewsService) ctx.getBean("newsService");
         syncTaskService = (SyncTaskService) ctx.getBean("syncTaskService");
-        
-        // get task id, for the schedule job will be running in multi-thread
-        JobDataMap jobDataMap = context.getJobDetail().getJobDataMap();
-        String taskIdStr = (String) jobDataMap.get(TASKID);
-        int taskId = Integer.parseInt(taskIdStr);
-        
+
         // analyze
 		while(!AnalyzerDB.unAnalysizedNewsIsEmpty()) {
 			System.out.println("Analyzer queue size: " + AnalyzerDB.getUnAnalysizedNewsNum());
@@ -58,13 +48,12 @@ public class DoHadoopJob extends QuartzJobBean {
 			if (newsList == null)
 				continue;
 			try {
-				System.out.println("Begin to exec task:" + taskId);
-				String result = syncTaskService.analyze(newsList, taskId);
+				System.out.println("Begin to exec task");
+				String result = syncTaskService.analyze(newsList);
 				processResult(newsList, result);
-				System.out.println("End to exec task:" + taskId);
-				jobDataMap.put(TASKID, String.valueOf(taskId++));
+				System.out.println("End to exec task");
 			} catch (Exception e) {
-				System.err.println("Error of analyzing, " + e.getMessage());
+				logger.error("Error of analyzing: ", e);
 			}
 		}
 		logger.info("End of doing hadoop");

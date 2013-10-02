@@ -653,7 +653,7 @@ p .right {margin:1em 1em 1em 0;}
 /*-- content.css -- content object and sub-objects --*/
 .content{}
 
-.sidebar{ width:200px;}
+.sidebar{ width:160px;}
 .sidebarM{ width:300px;}
 .sidebarL{ width:350px;}
 	.sidebox{ background:#F5F5F5;}

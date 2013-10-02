@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<title>News Classification</title>
+		<link type="text/css" href="resources/css/jquery-ui.min.css" rel="stylesheet" />
+
+		<!-- Framework CSS -->
+		<link rel="stylesheet" href="resources/css/blueprint/screen.css" type="text/css" media="screen, projection"/>
+		<link rel="stylesheet" href="resources/css/blueprint/print.css" type="text/css" media="print"/>
+		<!--[if lte IE 8]><link rel="stylesheet" href="resources/css/blueprint/ie.css" type="text/css" media="screen, projection"><![endif]-->
+		<link rel="stylesheet" href="resources/css/rain.css" type="text/css" media="screen, projection"/>
+		<!--[if lt IE 9]><script type="text/javascript" src="resources/js/html5.js"></script><![endif]-->
+
+		<!-- Custom CSS -->
+		<link type="text/css" href="resources/css/style.css" rel="stylesheet" />
+
+		<script src="resources/js/jquery/jquery-2.0.3.min.js" type="text/javascript"></script>
+		<script src="resources/js/jquery/jquery-ui.min.js" type="text/javascript"></script>
+		<script src="resources/js/jquery/jquery.tmpl.min.js" type="text/javascript"></script>
+		<script src="resources/js/date.js" type="text/javascript"></script>
+		
+		<script src="resources/js/common.js" type="text/javascript"></script>
+		<script src="resources/js/cluster.js" type="text/javascript"></script>
+	</head>
+
+	<body class="body">
+		<div class="header headerBlue">
+			<nav class="listStyleNo positionR clearfix">
+				<a href="#" class="headerLink headerLinkBlue left paddingRight paddingLeft displayBlock textDecNone">新闻</a>
+				<a href="#" class="headerLink headerLinkBlue left paddingRight paddingLeft displayBlock textDecNone">微博</a>
+				<a href="#" class="headerLink headerLinkBlue left paddingRight paddingLeft displayBlock textDecNone">购物</a>
+			</nav>
+		</div>
+		<div class="headerM headerGrey">
+			<div class="container positionR">
+				<div class="left">
+					<a class="textDecNone displayBlock paddingTopLL fontsizeXxlarge" href="./">Pakko新闻分类器</a>
+				</div>
+			</div>
+		</div>
+
+		<div class="container marginTop">
+			<div class="content">
+				<div class="sidebar left positionR">
+					<div class="sidebox">
+						<h2 class="category">类别</h2>
+						<ul id="menu" class="theme listStyleNo last">
+
+						</ul>
+					</div>
+				</div>
+
+				<div class="main mainRight positionR">
+					<div id="newsContent"> </div>
+					<div id="pageCount"> </div> 
+				</div>
+
+				<footer class="footer socialFooter clear borderTop">
+					<p class="bottom paddingLeftS">
+						Copyright 2013 Pakko Empire All rights reserved.
+					</p>
+				</footer>
+			</div>
+		</div>
+		
+			<script id="newsContentTemplate" type="text/x-jquery-tmpl">
+		    	<div class="postItem">
+					<h3><a target="_blank" href="${url}" class="textDecNone" title="${title}">${title}</a></h3>
+					<p>
+						<span id="time_source">${source} - ${formatDate(date)}</span>
+					</p>
+					<p>
+						${content.trim().substring(0,100) + '...'}
+					</p>
+				</div>
+			</script>
+	</body>
+
+</html>

@@ -33,6 +33,7 @@
 	<bean id="categoryDAO" class="com.ml.bus.dao.CategoryDAO" />
 	<bean id="newsDAO" class="com.ml.bus.dao.NewsDAO" />
 	<bean id="crawlPatternDAO" class="com.ml.bus.dao.CrawlPatternDAO" />
+	<bean id="clusterDAO" class="com.ml.bus.dao.ClusterDAO" />
 	<import resource="db-mongo.xml" />
 
 	<!--
@@ -79,7 +80,7 @@
     <bean name="autoAnalyzerJob" 
     		class="org.springframework.scheduling.quartz.JobDetailBean">
        <property name="jobClass">
-          <value>com.ml.bus.schedule.AnalyzerHadoopJob</value>
+          <value>com.ml.bus.schedule.AnalyzerJob</value>
        </property>      
     </bean>
     
@@ -93,16 +94,28 @@
        </property>
     </bean>
     
+    <bean name="autoAnalyzerHadoopJob" 
+    		class="org.springframework.scheduling.quartz.JobDetailBean">
+       <property name="jobClass">
+          <value>com.ml.bus.schedule.AnalyzerHadoopJob</value>
+       </property>
+    </bean>
+    
+    <bean id="cronAutoAnalyzerHadoop" 
+    		class="org.springframework.scheduling.quartz.CronTriggerBean">
+       <property name="jobDetail">
+          <ref bean="autoAnalyzerHadoopJob"/>
+       </property>
+       <property name="cronExpression">
+          <value>0/60 * * * * ?</value>
+       </property>
+    </bean>
+    
     <bean name="autoDoHadoopJob" 
     		class="org.springframework.scheduling.quartz.JobDetailBean">
        <property name="jobClass">
           <value>com.ml.bus.schedule.DoHadoopJob</value>
-       </property>
-       <property name="jobDataAsMap">  
-		   <map>  
-	       		<entry key="taskId" value="0"></entry>
-	       </map>  
-	   </property>   
+       </property>   
     </bean>
     
     <bean id="cronAutoDoHadoop" 
@@ -111,7 +124,7 @@
           <ref bean="autoDoHadoopJob"/>
        </property>
        <property name="cronExpression">
-          <value>0/60 * * * * ?</value>
+          <value>0/80 * * * * ?</value>
        </property>
     </bean>
     
@@ -121,7 +134,8 @@
           <list>
              <ref local="cronAutoCrawler"/>
              <ref local="cronAutoParser"/>
-             <ref local="cronAutoAnalyzer"/>
+             <!--<ref local="cronAutoAnalyzer"/> -->
+              <ref local="cronAutoAnalyzerHadoop"/>
              <ref local="cronAutoDoHadoop"/>
           </list>
        </property>

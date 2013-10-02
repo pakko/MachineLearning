@@ -162,7 +162,7 @@ public class SohuNewsParser extends AbstractNewsParser {
 	}
 
 	protected NodeFilters getNodeFilters() {
-        NodeFilter titleFilter = new TagNameFilter("h1");
+        NodeFilter titleFilter = new AndFilter(new TagNameFilter("h1"), new HasAttributeFilter("itemprop", "headline"));
         NodeFilter contentFilter = new AndFilter(new TagNameFilter("div"), new HasAttributeFilter("id", "contentText"));
         NodeFilter dateFilter = new AndFilter(new TagNameFilter("div"), new HasAttributeFilter("class", "time"));
         NodeFilter authorFilter = new AndFilter(new TagNameFilter("div"), new HasAttributeFilter("class", "editer"));

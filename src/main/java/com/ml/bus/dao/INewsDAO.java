@@ -10,5 +10,8 @@ public interface INewsDAO {
 	List<News> findByCategory(String categoryId);
 	Pagination findByPage(Pagination pager);
 	Pagination findByCategoryAndPage(String categoryId, Pagination pager);
+	Pagination findByCategorysAndPage(String categoryId, String clusterId, Pagination pager);
 	void save(News news);
+	News findById(String id);
+	void delete(News news);
 }

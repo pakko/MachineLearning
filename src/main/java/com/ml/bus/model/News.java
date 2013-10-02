@@ -18,13 +18,14 @@ public class News {
 	private String img;
 	private String source;
 	private String originalCategory;	//用来测试准确率
+	private String clusterId;
 	
 	public News() {
 		
 	}
 	
 	public News(String id, String title, String content, String author,
-			Date date, String categoryId, String url, String img, String source, String originalCategory) {
+			Date date, String categoryId, String url, String img, String source, String originalCategory, String clusterId) {
 		this.id = id;
 		this.title = title;
 		this.content = content;
@@ -35,6 +36,7 @@ public class News {
 		this.img = img;
 		this.source = source;
 		this.originalCategory = originalCategory;
+		this.clusterId = clusterId;
 	}
 
 	public String getId() {
@@ -105,11 +107,23 @@ public class News {
 		this.originalCategory = originalCategory;
 	}
 
+	
+
 	@Override
 	public String toString() {
 		return "News [id=" + id + ", title=" + title + ", content=" + content
-				+ ", author=" + author + ", date=" + date + ", category="
-				+ categoryId + ", url=" + url + ", img=" + img + ", source=" + source + ", originalCategory=" + originalCategory + "]";
+				+ ", author=" + author + ", date=" + date + ", categoryId="
+				+ categoryId + ", url=" + url + ", img=" + img + ", source="
+				+ source + ", originalCategory=" + originalCategory
+				+ ", clusterId=" + clusterId + "]";
+	}
+
+	public String getClusterId() {
+		return clusterId;
+	}
+
+	public void setClusterId(String clusterId) {
+		this.clusterId = clusterId;
 	}
 	
 	

@@ -56,6 +56,34 @@ public class NewsMybatisDAO implements INewsDAO {
 	public void save(News news) {
 		newsMapper.save(news);
 	}
+
+	@Override
+	public News findById(String id) {
+		return newsMapper.findById(id).get(0);
+	}
+
+	@Override
+	public void delete(News news) {
+		newsMapper.delete(news);
+	}
+
+	@Override
+	public Pagination findByCategorysAndPage(String categoryId,
+			String clusterId, Pagination pager) {
+		int limitSize = pager.getLimitSize();
+		List<News> items = newsMapper.findByCategorysAndPage(categoryId, clusterId, pager);
+		int totalCount = newsMapper.countCategory(categoryId);
+
+		int totalPage = (int)(totalCount / limitSize) + 1;
+		if((totalCount % limitSize) == 0) {
+			totalPage = totalPage - 1;
+		}
+		pager.setItems(items);
+		pager.setTotalCount(totalCount);
+		pager.setTotalPage(totalPage);
+		
+		return pager;
+	}
 	
 
 }

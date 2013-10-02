@@ -33,7 +33,19 @@ public class NewsService {
 		return newsDAO.findByCategoryAndPage(categoryId, pager);
 	}
 	
+	public Pagination findByCategorysAndPage(String categoryId, String clusterId, Pagination pager) {
+		return newsDAO.findByCategorysAndPage(categoryId, clusterId, pager);
+	}
+	
 	public void save(News news) {
+		newsDAO.save(news);
+	}
+	
+	public void saveOrUpdate(News news) {
+		News n = newsDAO.findById(news.getId());
+		if(n != null) {
+			newsDAO.delete(n);
+		}
 		newsDAO.save(news);
 	}
 	

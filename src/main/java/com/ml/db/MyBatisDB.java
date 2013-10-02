@@ -72,7 +72,7 @@ public class MyBatisDB implements IBaseDB{
 		MyBatisDB p = new MyBatisDB(props);
 		//System.out.println(p.findAll("com.ml.bus.mapper.NewsMapper.save"));
 		News news = new News(null, "好声音", "来吧~", "浙江卫视",
-				new Date(), "", "http://happy", "", "", "");
+				new Date(), "", "http://happy", "", "", "", "");
 		
 		p.save(news, "com.ml.bus.mapper.NewsMapper.save");
 	}
@@ -198,7 +198,6 @@ public class MyBatisDB implements IBaseDB{
 		// TODO Auto-generated method stub
 		return 0;
 	}
-	
 	
 
 }
