@@ -25,7 +25,7 @@ public class Constants {
 	public static final String mybatisDBConfigFile = "dbconf" + separator + "MybatisConfig.xml";
 	
 	public static final String newsCollectionName = "news";
-	public static final String crawlPatternCollectionName = "crawl_pattern";
+	public static final String crawlPatternCollectionName = "crawlPattern";
 	public static final String categoryCollectionName = "category";
 	public static final String clusterCollectionName = "cluster";
 
